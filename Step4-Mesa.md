@@ -30,7 +30,6 @@ git clone --recurse-submodules -b v2025.1 https://github.com/KhronosGroup/SPIRV-
 
 ## Table of Contents
 
-- [Overview](#Overview)  
 - [SPIR-V Headers](#spir-v-headers)  
 - [SPIR-V Tools](#spir-v-tools)  
 - [glslanglib](#glslanglib)  
@@ -43,67 +42,13 @@ git clone --recurse-submodules -b v2025.1 https://github.com/KhronosGroup/SPIRV-
 - [Library Dependency Check](#library-dependency-check)  
 - [Mesa](#mesa)  
 
-# Overview
-
-## SPIR-V Headers
-
-The **SPIR-V Headers** project provides the official definitions for the SPIR-V intermediate representation used in Vulkan and OpenCL. These headers define the specification’s data structures and constants, ensuring consistent interpretation of SPIR-V bytecode across tools and drivers.
-
-------
-
-## SPIR-V Tools
-
-**SPIR-V Tools** is a collection of utilities to manipulate, optimize, and validate SPIR-V binaries. It includes assemblers, disassemblers, optimizers, and validators that are essential in the graphics pipeline for handling shader code.
-
-------
-
-## glslanglib
-
-The **glslang** library is the reference compiler for GLSL (OpenGL Shading Language) and ESSL (OpenGL ES Shading Language). It converts GLSL shader source code into SPIR-V bytecode, which GPUs consume for rendering.
-
-------
-
-## SPIR-V Translator
-
-The **SPIR-V Translator** bridges SPIR-V and LLVM intermediate representations, enabling interoperability between Vulkan shaders and other compiler toolchains. It’s used to translate SPIR-V into LLVM IR for optimization and back.
-
-------
-
-## Cairo
-
-**Cairo** is a 2D graphics library that provides vector graphics and image compositing for rendering. It supports multiple output targets like X11, OpenGL, and image buffers and is widely used in graphical applications and toolkits.
-
-------
-
-## libDRM
-
-The **libDRM** (Direct Rendering Manager library) provides user-space APIs to communicate with the Linux kernel’s DRM subsystem. It enables applications to control GPU resources, manage memory, and perform direct rendering operations.
-
-------
-
-## libva VA-API (Video Acceleration API)
-
-**libva** is a vendor-neutral library offering a standardized API for GPU-accelerated video decoding, encoding, and processing. Primarily developed by Intel, it allows applications to leverage hardware video acceleration transparently across different GPUs.
-
-------
-
-## libglvnd
-
-The **libglvnd** (OpenGL Vendor Neutral Dispatch) library provides a vendor-neutral dispatch layer for OpenGL and EGL. It allows multiple OpenGL implementations (from different GPU vendors) to coexist on a system, enabling proper function dispatching based on the active GPU.
-
-------
-
-## Mesa
-
-**Mesa** is the core open-source implementation of the OpenGL, Vulkan, and other graphics APIs for Linux. It provides GPU drivers and the Gallium framework to enable hardware-accelerated rendering for a wide range of GPUs including AMD, Intel, and Nvidia (via nouveau).
-
 
 
 ---
 
 ## SPIR-V Headers
 
-KhronosGroup SPIR-V Headers provide the core definitions for SPIR-V.
+KhronosGroup SPIR-V Headers provide the core definitions for SPIR-V. The **SPIR-V Headers** project provides the official definitions for the SPIR-V intermediate representation used in Vulkan and OpenCL. These headers define the specification’s data structures and constants, ensuring consistent interpretation of SPIR-V bytecode across tools and drivers.
 
 ```bash
 git clone --recurse-submodules https://github.com/KhronosGroup/SPIRV-Headers.git
@@ -122,7 +67,7 @@ hash -r
 
 ## SPIR-V Tools
 
-SPIR-V Tools provide utilities to work with SPIR-V binaries.
+SPIR-V Tools provide utilities to work with SPIR-V binaries. **SPIR-V Tools** is a collection of utilities to manipulate, optimize, and validate SPIR-V binaries. It includes assemblers, disassemblers, optimizers, and validators that are essential in the graphics pipeline for handling shader code.
 
 ```
 git clone --recurse-submodules -b v2025.1 https://github.com/KhronosGroup/SPIRV-Tools.git
@@ -147,7 +92,7 @@ hash -r
 
 ## glslanglib
 
-Reference front-end compiler for GLSL and ESSL shaders.
+Reference front-end compiler for GLSL and ESSL shaders. The **glslang** library is the reference compiler for GLSL (OpenGL Shading Language) and ESSL (OpenGL ES Shading Language). It converts GLSL shader source code into SPIR-V bytecode, which GPUs consume for rendering.
 
 ```
 git clone --recurse-submodules -b 15.3.0 https://github.com/KhronosGroup/glslang.git
@@ -196,7 +141,11 @@ hash -r
 
 ## Cairo
 
-2D graphics library used for rendering.
+2D graphics library used for rendering. **Cairo** is a 2D graphics library that provides vector graphics and image compositing for rendering. It supports multiple output targets like X11, OpenGL, and image buffers and is widely used in graphical applications and toolkits.
+
+------
+
+## 
 
 ```
 git clone --recurse-submodules git://anongit.freedesktop.org/git/cairo
@@ -219,7 +168,7 @@ pkg-config --modversion cairo
 
 ## libDRM
 
-Direct Rendering Manager library for interacting with GPUs.
+Direct Rendering Manager library for interacting with GPUs. The **libDRM** (Direct Rendering Manager library) provides user-space APIs to communicate with the Linux kernel’s DRM subsystem. It enables applications to control GPU resources, manage memory, and perform direct rendering operations.
 
 ```
 git clone --recurse-submodules -b libdrm-2.4.124 https://gitlab.freedesktop.org/mesa/drm.git
@@ -264,7 +213,7 @@ find /usr/local -name "libdrm.so*"
 
 ## libva VA-API (Video Acceleration API)
 
-Hardware video acceleration API from Intel but used also by AMD GPUs. It's not updated very often but you can check the git link for something newer.
+Hardware video acceleration API from Intel but used also by AMD GPUs. It's not updated very often but you can check the git link for something newer. **libva** is a vendor-neutral library offering a standardized API for GPU-accelerated video decoding, encoding, and processing. Primarily developed by Intel, it allows applications to leverage hardware video acceleration transparently across different GPUs.
 
 ```
 git clone --recurse-submodules -b 2.22.0 https://github.com/intel/libva.git
@@ -303,7 +252,7 @@ vainfo
 
 ## libglvnd
 
-Vendor-neutral dispatch library for OpenGL.
+Vendor-neutral dispatch library for OpenGL. The **libglvnd** (OpenGL Vendor Neutral Dispatch) library provides a vendor-neutral dispatch layer for OpenGL and EGL. It allows multiple OpenGL implementations (from different GPU vendors) to coexist on a system, enabling proper function dispatching based on the active GPU.
 
 ```
 git clone --recurse-submodules -b v1.7.0 https://gitlab.freedesktop.org/glvnd/libglvnd.git
@@ -328,7 +277,7 @@ ldconfig -p | grep libEGL
 
 ## Mesa
 
-Mesa 3D Graphics Library.
+Mesa 3D Graphics Library. **Mesa** is the core open-source implementation of the OpenGL, Vulkan, and other graphics APIs for Linux. It provides GPU drivers and the Gallium framework to enable hardware-accelerated rendering for a wide range of GPUs including AMD, Intel, and Nvidia (via nouveau).
 
 ```
 git clone --recurse-submodules -b mesa-25.1.0-rc3 https://gitlab.freedesktop.org/mesa/mesa.git
