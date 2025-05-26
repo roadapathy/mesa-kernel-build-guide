@@ -133,7 +133,7 @@ This will be the most difficult part of this step-by-step process and cannot sim
 make oldconfig  # This will copy the configuration from your current loaded/running Kernel.
 ```
 
-Stop here, plug in all of your devices, and activate or mount them. Plug in a USB drive, a webcam, start the webcam app, any other devices that you want the new Kernel to support and then run the following command to remove unused Kernel modules from the .config file. Unfortunately, this may remove a number of necessary files for things like KVM or Docker containers or VPN. However, if you activate all of these things before running the command then it will force your current Kernel to load them and become visiable to the make localmodconfig command which will add them to the .config file.
+Stop here, plug in all of your devices, and activate or mount them. Plug in a USB drive, a webcam, start the webcam app, any other devices that you want the new Kernel to support and then run the following command to remove unused Kernel modules from the .config file. Unfortunately, this may remove a number of necessary files for things like KVM or Docker containers or VPN. Ideally, if you activate all of these devices before running the command then it will force your current Kernel to load them and become visible to the make localmodconfig command which will add them to the .config file.
 
 ```
 make localmodconfig
@@ -183,12 +183,6 @@ If the build process stops, copy and paste the error output to ChatGPT if you're
 
 Use this build command instead of the one above if you want to push the Kernel further toward performance. 
 
-Using -fno-stack-protector is not a good idea on a Linux Kernel. This was added for performance-driven, gaming systems.
-
-Change "custom" to whatever name you want to give to your Kernel and it will be appended but do not use numbers (1,2,3, etc).
-
-In this example, Kernel modules are compiled with -O3 as some will include the GPU drivers (exception being Nvidia ones).
-
 ```bash
 CFLAGS="-O2 -march=native -mtune=native -fno-stack-protector -fomit-frame-pointer -fno-plt -g0" \
 RUSTFLAGS="-C opt-level=2 -C target-cpu=native" \
@@ -198,6 +192,12 @@ KBUILD_CFLAGS_MODULE="-O3 -march=native -mtune=native -fomit-frame-pointer -fno-
 KBUILD_CFLAGS_KERNEL="-O2 -march=native -mtune=native -fomit-frame-pointer -fno-stack-protector -fno-plt -fno-common -pipe -g0" \
 sudo make -j$(nproc) LOCALVERSION=-custom bindeb-pkg CC=gcc-15 HOSTCC=gcc-15
 ```
+
+- Using -fno-stack-protector is not a good idea on a Linux Kernel. This was added for performance-driven, gaming systems.
+
+- Change "custom" to whatever name you want to give to your Kernel and it will be appended but do not use numbers (1,2,3, etc).
+
+- In this example, Kernel modules are compiled with -O3 as some will include the GPU drivers (exception being Nvidia ones).
 
 ---
 
