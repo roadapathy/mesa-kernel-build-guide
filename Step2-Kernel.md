@@ -105,21 +105,47 @@ If the build process stops, copy and paste the error output to ChatGPT if you're
 
 Use this build command instead of the one above if you want to push the Kernel further toward performance. 
 
-```bash
-CFLAGS="-O2 -march=native -mtune=native -fno-stack-protector -fomit-frame-pointer -fno-plt -g0" \
+```
+CFLAGS="-O2 -march=native -mtune=native -fno-stack-protector -fomit-frame-pointer -g0" \
 RUSTFLAGS="-C opt-level=2 -C target-cpu=native" \
 KCFLAGS="-O2 -march=native -mtune=native -fno-stack-protector -fomit-frame-pointer -fno-common -pipe -g0" \
 KCPPFLAGS="-O2 -march=native -mtune=native -fno-stack-protector -fomit-frame-pointer -pipe -g0" \
-KBUILD_CFLAGS_MODULE="-O3 -march=native -mtune=native -fomit-frame-pointer -fno-stack-protector -fno-plt -fno-common -pipe -g0" \
-KBUILD_CFLAGS_KERNEL="-O2 -march=native -mtune=native -fomit-frame-pointer -fno-stack-protector -fno-plt -fno-common -pipe -g0" \
-sudo make -j$(nproc) LOCALVERSION=-custom bindeb-pkg CC=gcc-15 HOSTCC=gcc-15
+KBUILD_CFLAGS_MODULE="-O3 -march=native -mtune=native -fomit-frame-pointer -fno-stack-protector -frename-registers -fgcse-after-reload -funroll-loops -pipe -g0" \
+KBUILD_CFLAGS_KERNEL="-O2 -march=native -mtune=native -fomit-frame-pointer -fno-stack-protector -pipe -g0" \
+sudo make -j$(nproc) LOCALVERSION=-joelsafe bindeb-pkg CC=gcc-15 HOSTCC=gcc-15
 ```
 
-- Using -fno-stack-protector is not a good idea on a Linux Kernel. This was added for performance-driven, gaming systems.
+### Explanation
 
-- Change "custom" to whatever name you want to give to your Kernel and it will be appended but do not use numbers (1,2,3, etc).
+- `-O2` and `-O3`: Optimization levels, with `-O3` used for kernel modules for extra speed.
+- `-march=native` and `-mtune=native`: Optimize and tune for your current CPU architecture (replacing CPU-specific flags like `znver5` for better compatibility).
+- `-fno-stack-protector`: Disable stack protection to reduce overhead (optional, be cautious).
+- `-fomit-frame-pointer`: Omit the frame pointer for optimized performance.
+- `-pipe`: Use pipes rather than temporary files during compilation for speed.
+- `-g0`: Disable debug symbols to reduce binary size.
+- `-frename-registers`, `-fgcse-after-reload`, `-funroll-loops`: Advanced optimizations for module compilation.
+- `LOCALVERSION=-joelsafe`: Adds a custom suffix to the kernel version.
+- `bindeb-pkg`: Build Debian packages for easy installation.
+- `CC=gcc-15` and `HOSTCC=gcc-15`: Use GCC version 15 as the compiler and host compiler.
 
-- In this example, Kernel modules are compiled with -O3 as some will include the GPU drivers (exception being Nvidia ones).
+Since I'm using the AMDGPU Kernel driver module for my GPU, I edited the Makefile in 
+
+```
+/source/source/kernel/linux-6.15-rc7/drivers/gpu/drm/amd/amdgpu/
+```
+
+I added the last 3 lines below.
+
+```
+# Locally disable W=1 warnings enabled in drm subsystem Makefile
+subdir-ccflags-y += -Wno-override-init
+subdir-ccflags-$(CONFIG_DRM_AMDGPU_WERROR) += -Werror
+
+# Add aggressive AMDGPU-specific optimization flags (without SIMD/vectorization)
+subdir-ccflags-y += -O3 -march=znver5 -mtune=znver5 -funroll-loops -frename-registers -fgcse-after-reload -fno-stack-protector -fomit-frame-pointer -pipe -g0
+```
+
+
 
 ---
 

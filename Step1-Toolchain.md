@@ -61,6 +61,31 @@ gccgo --version
 
 Each should show version **15.x.x** indicating GCC 15 is the active compiler.
 
+### Step 4. Install Clang 20
+
+You can manually add the PPA.
+
+```
+deb http://apt.llvm.org/oracular/ llvm-toolchain-oracular-20 main
+deb-src http://apt.llvm.org/oracular/ llvm-toolchain-oracular-20 main
+```
+
+Or use the script provided by the Clang project.
+
+```
+wget https://apt.llvm.org/llvm.sh
+chmod +x llvm.sh
+sudo ./llvm.sh 20
+```
+
+Once added, you will install the following to be used later by Mesa. Mesa will use both GCC and Clang.
+
+```
+sudo apt-get install llvm-20 libclang1-20 clang-tools-20 clang-tools-20 clang-20
+```
+
+
+
 ### Step 4: Optionally install all dependencies for every project used within these guides:
 
 As one huge command.
