@@ -172,10 +172,10 @@ CC=gcc-15 CXX=g++-15 meson setup build \
   --prefix=/usr/local \
   --buildtype=release \
   -Db_lto=true \
-  -Dradeon=enabled \ # YOU NEED TO MODIFY BASE DON YOUR GPU
-  -Damdgpu=enabled \ # YOU NEED TO MODIFY BASE DON YOUR GPU
-  -Dintel=disabled \ # YOU NEED TO MODIFY BASE DON YOUR GPU
-  -Dnouveau=disabled \ # YOU NEED TO MODIFY BASE DON YOUR GPU
+  -Dradeon=enabled \ # YOU NEED TO MODIFY BASED ON YOUR GPU
+  -Damdgpu=enabled \ # YOU NEED TO MODIFY BASED ON YOUR GPU
+  -Dintel=disabled \ # YOU NEED TO MODIFY BASED ON YOUR GPU
+  -Dnouveau=disabled \ # YOU NEED TO MODIFY BASED ON YOUR GPU
   -Dvmwgfx=disabled \ 
   -Domap=disabled \
   -Dfreedreno=disabled \
