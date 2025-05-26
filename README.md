@@ -8,6 +8,16 @@ Whether you're running Ubuntu or another Debian-based distro, this step-by-step 
 
 **Get ready to take control of your system's performance and customize every bit of your graphics and kernel stack — the ultimate Linux tuning experience starts here!**
 
+## Simple Summary of the Project
+
+- Use this guide as a simple copy-and-paste guide to a complex process.
+- Update system toolchain to the latest, high performance version.
+- Download source files of key system components to boost the entire system (Kernel, Mesa, OpenJDK).
+- Build projects each with CPU and GPU optimizations specific to your hardware as well as supporting libraries.
+- Install each project into /usr/local/ where the system should look first and fallback to the system files just in case.
+
+NOTE: Some might ask "Why not just use Gentoo?" This is a shorter path to gain performance and a balance between time, effort, and performance gain. By choosing the most critical components, this project is preferable and uses a newer toolchain.
+
 # Criteria for Project Selection and Build Optimization Choices
 
 ## Table of Contents
