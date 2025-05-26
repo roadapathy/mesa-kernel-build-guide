@@ -16,7 +16,7 @@ Step-by-step guide to building CPU and GPU optimized Mesa and Linux Kernel. Curr
 
 ## 1. Latest Toolchain
 
-
+https://github.com/roadapathy/mesa-kernel-build-guide/blob/main/Step1-Toolchain.md
 
 - Always build with the **latest stable compiler toolchain** available (e.g., GCC 15 instead of GCC 14).
 - Newer compilers provide improved **code generation**, enhanced optimization techniques, better CPU/GPU support, and critical bug fixes.
