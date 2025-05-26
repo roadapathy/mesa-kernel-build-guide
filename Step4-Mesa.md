@@ -115,7 +115,7 @@ hash -r
 
 ## SPIR-V Translator
 
-SPIR-V to LLVM Translator.
+SPIR-V to LLVM Translator. The **SPIR-V Translator** bridges SPIR-V and LLVM intermediate representations, enabling interoperability between Vulkan shaders and other compiler toolchains. It’s used to translate SPIR-V into LLVM IR for optimization and back.
 
 ```
 git clone --recurse-submodules -b v20.1.2 https://github.com/KhronosGroup/SPIRV-LLVM-Translator.git
