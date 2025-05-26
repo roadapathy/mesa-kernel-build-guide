@@ -4,84 +4,6 @@ This guide covers building essential libraries (`zlib`, `liblz4`, and `zstd`) an
 
 ---
 
-## Table of Contents
-- [zlib](#zlib)
-- [liblz4](#liblz4)
-- [zstd](#zstd)
-- [Linux Kernel](#linux-kernel)
-- [Notes on Compiler Flags](#notes-on-compiler-flags)
-
----
-
-## zlib
-
-[zlib](https://github.com/madler/zlib) is a widely-used compression library required by many software projects, including the Linux kernel and related tooling.
-
-```bash
-git clone --recurse-submodules https://github.com/madler/zlib.git
-cd zlib
-
-CFLAGS="-O2 -march=native -mtune=native -funroll-loops -fomit-frame-pointer -frename-registers -fgcse-after-reload -fweb -g0 -flto -pthread" \
-./configure --prefix=/usr/local
-
-make -j$(nproc)
-sudo make install
-sudo ldconfig
-hash -r
-```
-
-**Explanation:**
-
-- `-O2`: Optimize code without increasing compilation time excessively.
-- `-march=native` and `-mtune=native`: Optimize for the local CPU architecture.
-- `-funroll-loops`: Unroll loops to improve speed in some cases.
-- `-fomit-frame-pointer`: Omit the frame pointer for slightly better performance.
-- `-frename-registers`, `-fgcse-after-reload`, `-fweb`: Advanced optimization passes to improve register usage and eliminate redundancies.
-- `-g0`: Strip debug info to reduce binary size.
-- `-flto`: Enable link-time optimization.
-- `-pthread`: Enable POSIX threads.
-
----
-
-## liblz4
-
-[liblz4](https://github.com/lz4/lz4) is a fast compression library commonly used for kernel modules and filesystems.
-
-```bash
-git clone https://github.com/lz4/lz4.git
-cd lz4
-
-make PREFIX=/usr/local CFLAGS="-O3 -march=native -mtune=native -fomit-frame-pointer -g0 -flto"
-sudo make PREFIX=/usr/local install
-sudo ldconfig;hash -r
-```
-
-**Explanation:**
-
-- `-O3`: Maximum optimization level for performance.
-- Other flags are similar in purpose to the ones used in `zlib`.
-
----
-
-## zstd
-
-[zstd](https://github.com/facebook/zstd) is a modern compression library used widely in kernel compression and other tools.
-
-```bash
-git clone --recurse-submodules https://github.com/facebook/zstd.git
-cd zstd
-
-make PREFIX=/usr/local CFLAGS="-O2 -march=native -mtune=native -funroll-loops -frename-registers -fweb -fgcse-after-reload -fomit-frame-pointer -g0 -flto"
-sudo make PREFIX=/usr/local install
-sudo ldconfig;hash -r
-```
-
-**Explanation:**
-
-- Mixes `-O2` optimization with aggressive loop unrolling and register optimizations for a balance between compile time and runtime speed.
-
----
-
 ## Linux Kernel
 
 This section details compiling the Linux Kernel optimized for your CPU. The build process includes preparing the config, compiling with optimized flags, and packaging `.deb` files for easy installation.
@@ -214,7 +136,7 @@ sudo dpkg -i linux-libc-dev_*.deb
 ## Notes on Compiler Flags
 
 - `-O2` is a balanced optimization level for speed and safety.
-- `-O3` is more aggressive and can improve performance at the cost of longer compile times and larger binaries.
+- `-O3` is more aggressive and can improve performance at the cost of longer compile times and larger binaries but are fine for the modules.
 - `-march=native` and `-mtune=native` automatically optimize for the host CPU. This is preferred over architecture-specific flags like `-march=znver5` for portability.
 - Flags like `-fomit-frame-pointer`, `-frename-registers`, and `-fgcse-after-reload` help reduce overhead and improve register allocation. These have been selected as a fusion of -O2 and -O3 depending on the project's functions. Example: loops versus heavy math
 - `-fno-stack-protector` disables stack smashing protection for minor performance gain but reduces security. Remove this if security is crucial.
