@@ -1,6 +1,30 @@
 # Mesa Build Guide
 
-This guide covers the steps to build Mesa and its related dependencies and libraries with CPU optimization flags suitable for AMD Zen (znver5) architecture. The instructions assume you have GCC 15 (`gcc-15` and `g++-15`) installed and want to install everything under `/usr/local`.
+This guide covers the steps to build Mesa and its related dependencies and libraries with CPU optimization flags and GPU options. The instructions assume you have GCC 15 (`gcc-15` and `g++-15`) and Clang 20 installed and want to install everything under `/usr/local`. **YOU DO NOT HAVE TO BUILD EVERYTHING HERE.** Yes, you can skip to LibDRM  to compile just LibDRM and Mesa. However, many of these other supporting libraries receive regular updates and performance improvements as well as many new features. 
+
+## IMPORTANT: 
+
+You can go to the git link to check for newer versions of the files on this guide. You must learn how the git command works first. We're choosing to use the latest stable released versions or the latest that has been designated a static version number rather than cloning from the main, which can often be too bleeding edge and/or broken.
+
+```
+git clone --recurse-submodules -b v2025.1 https://github.com/KhronosGroup/SPIRV-Tools.git
+```
+
+**`git clone`**
+ This command copies the entire remote repository (all the project files, history, branches) to your local machine.
+
+**`--recurse-submodules`**
+ This option tells Git to also clone all the submodules (nested repositories) that the main project depends on. Many large projects include other projects as submodules, so this ensures you get all necessary code.
+
+**`-b v2025.1`**
+ This specifies which branch or tag to clone from the remote repository. In this case, it clones the branch or tag named `v2025.1`.
+
+> **Important:** Project maintainers often update branches and tags frequently. You should check the project’s [GitHub releases or branches page](https://github.com/KhronosGroup/SPIRV-Tools/branches) to find the latest stable or appropriate version to use. Replace `v2025.1` with the version you want.
+
+**`https://github.com/KhronosGroup/SPIRV-Tools.git`**
+ This is the URL of the remote Git repository to clone from.
+
+
 
 ---
 
@@ -148,11 +172,11 @@ CC=gcc-15 CXX=g++-15 meson setup build \
   --prefix=/usr/local \
   --buildtype=release \
   -Db_lto=true \
-  -Dradeon=enabled \
-  -Damdgpu=enabled \
-  -Dintel=disabled \
-  -Dnouveau=disabled \
-  -Dvmwgfx=disabled \
+  -Dradeon=enabled \ # YOU NEED TO MODIFY BASE DON YOUR GPU
+  -Damdgpu=enabled \ # YOU NEED TO MODIFY BASE DON YOUR GPU
+  -Dintel=disabled \ # YOU NEED TO MODIFY BASE DON YOUR GPU
+  -Dnouveau=disabled \ # YOU NEED TO MODIFY BASE DON YOUR GPU
+  -Dvmwgfx=disabled \ 
   -Domap=disabled \
   -Dfreedreno=disabled \
   -Dtegra=disabled \
@@ -170,8 +194,6 @@ sudo ninja -C build install
 sudo ldconfig
 hash -r
 ```
-
-
 
 #### Verification examples:
 ```
@@ -258,8 +280,8 @@ cd mesa
 CC=gcc-15 CXX=g++-15 meson setup build \
   --prefix=/usr/local \
   --buildtype=release \
-  -Dgallium-drivers=radeonsi,zink,softpipe,llvmpipe \
-  -Dvulkan-drivers=amd,swrast,virtio \
+  -Dgallium-drivers=radeonsi,zink,softpipe,llvmpipe \ # YOU NEED TO MODIFY BASE DON YOUR GPU
+  -Dvulkan-drivers=amd,swrast,virtio \ # YOU NEED TO MODIFY BASE DON YOUR GPU
   -Dgallium-va=enabled \
   -Dgallium-vdpau=enabled \
   -Dllvm=enabled \
@@ -291,13 +313,13 @@ sudo ldconfig
 hash -r
 ```
 
-
-
 #### Verification:
 ```
 glxinfo | grep "OpenGL version"
 vulkaninfo | grep "apiVersion"
 ```
+
+
 
 # Notes on Optimization Flags
 
