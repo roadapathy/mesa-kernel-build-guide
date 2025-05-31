@@ -16,7 +16,7 @@ Whether you're running Ubuntu or another Debian-based distro, this step-by-step 
 - Build projects each with CPU and GPU optimizations specific to your hardware as well as supporting libraries.
 - Install each project into /usr/local/ where the system should look first and fallback to the system files just in case.
 
-NOTE: Some might ask "Why not just use Gentoo?" This is a shorter path to gain performance and a balance between time, effort, and performance gain. By choosing the most critical components, this project is preferable and uses a newer toolchain.
+**NOTE:** Some might ask **"Why not just use Gentoo?"** This is a shorter path to gain performance and a balance between time, effort, and performance gain. By choosing the most critical components, this project is preferable and uses a newer toolchain.
 
 # Criteria for Project Selection and Build Optimization Choices
 
