@@ -35,6 +35,7 @@ git clone --recurse-submodules -b v2025.1 https://github.com/KhronosGroup/SPIRV-
 - [glslanglib](#glslanglib)  
 - [SPIR-V Translator](#spir-v-translator)  
 - [Cairo](#cairo)  
+- [Pixman](#pixman)  
 - [libDRM](#libdrm)  
 - [libva VA-API (Video Acceleration API)](#libva-va-api-video-acceleration-api)  
 - [libglvnd](#libglvnd)  
@@ -70,7 +71,7 @@ hash -r
 SPIR-V Tools provide utilities to work with SPIR-V binaries. **SPIR-V Tools** is a collection of utilities to manipulate, optimize, and validate SPIR-V binaries. It includes assemblers, disassemblers, optimizers, and validators that are essential in the graphics pipeline for handling shader code.
 
 ```
-git clone --recurse-submodules -b v2025.1 https://github.com/KhronosGroup/SPIRV-Tools.git  # v2025.1 latest version as of May 5, 2025
+git clone --recurse-submodules -b v2025.1 https://github.com/KhronosGroup/SPIRV-Tools.git  # v2025.1 latest version as of May 30, 2025
 cd SPIRV-Tools
 mkdir build && cd build
 CC=gcc-15 CXX=g++-15 cmake .. -DCMAKE_INSTALL_PREFIX=/usr/local \
@@ -95,7 +96,7 @@ hash -r
 Reference front-end compiler for GLSL and ESSL shaders. The **glslang** library is the reference compiler for GLSL (OpenGL Shading Language) and ESSL (OpenGL ES Shading Language). It converts GLSL shader source code into SPIR-V bytecode, which GPUs consume for rendering.
 
 ```
-git clone --recurse-submodules -b **15.3.0** https://github.com/KhronosGroup/glslang.git  # 15.3.0 latest version as of May 5, 2025
+git clone --recurse-submodules -b **15.3.0** https://github.com/KhronosGroup/glslang.git  # 15.3.0 latest version as of May 30, 2025
 cd glslang
 mkdir build && cd build
 
@@ -118,7 +119,7 @@ hash -r
 SPIR-V to LLVM Translator. The **SPIR-V Translator** bridges SPIR-V and LLVM intermediate representations, enabling interoperability between Vulkan shaders and other compiler toolchains. It’s used to translate SPIR-V into LLVM IR for optimization and back.
 
 ```
-git clone --recurse-submodules -b v20.1.2 https://github.com/KhronosGroup/SPIRV-LLVM-Translator.git  # v20.1.2 latest version as of May 5, 2025
+git clone --recurse-submodules -b v20.1.2 https://github.com/KhronosGroup/SPIRV-LLVM-Translator.git  # v20.1.2 latest version as of May 30, 2025
 cd SPIRV-LLVM-Translator
 mkdir build && cd build
 
@@ -145,7 +146,7 @@ hash -r
 
 ------
 
-## 
+
 
 ```
 git clone --recurse-submodules git://anongit.freedesktop.org/git/cairo # There's only this link, AKA master/main
@@ -166,6 +167,28 @@ pkg-config --modversion cairo
 
 
 
+## Pixman
+
+Low-level pixel manipulation library. Pixman is a fast, low-level C library for pixel compositing and image manipulation. It provides optimized routines for image blending, format conversions, and rasterization. Mesa uses Pixman for software rendering (when no GPU is available), and it is also a core dependency of Cairo. Pixman is essential for Cairo and for Mesa’s software rasterizers (like LLVMpipe and Softpipe).
+
+Improvements in Pixman directly benefit software rendering performance in both Cairo and Mesa.
+
+```
+git clone --recursive git://anongit.freedesktop.org/git/pixman.git
+cd pixman
+
+meson setup builddir --prefix=/usr/local --buildtype=release \
+  -Dc_args="-O2 -march=native -mtune=native -fomit-frame-pointer -g0" \
+  -Dcpp_args="-O2 -march=native -mtune=native -fomit-frame-pointer -g0"
+
+ninja -C builddir -j$(nproc)
+sudo ninja -C builddir install
+sudo ldconfig
+hash -r
+
+pkg-config --modversion pixman-1
+```
+
 
 
 
@@ -173,8 +196,10 @@ pkg-config --modversion cairo
 
 Direct Rendering Manager library for interacting with GPUs. The **libDRM** (Direct Rendering Manager library) provides user-space APIs to communicate with the Linux kernel’s DRM subsystem. It enables applications to control GPU resources, manage memory, and perform direct rendering operations.
 
+**You will almost certainly need to modify the build command based upon your GPU.**
+
 ```
-git clone --recurse-submodules -b libdrm-2.4.124 https://gitlab.freedesktop.org/mesa/drm.git  # Version libdrm-2.4.124 is the latest as of May 5, 2025
+git clone --recurse-submodules -b libdrm-2.4.124 https://gitlab.freedesktop.org/mesa/drm.git  # Version libdrm-2.4.124 is the latest as of May 30, 2025
 cd drm
 
 CC=gcc-15 CXX=g++-15 meson setup build \
@@ -219,7 +244,7 @@ find /usr/local -name "libdrm.so*"
 Hardware video acceleration API from Intel but used also by AMD GPUs. It's not updated very often but you can check the git link for something newer. **libva** is a vendor-neutral library offering a standardized API for GPU-accelerated video decoding, encoding, and processing. Primarily developed by Intel, it allows applications to leverage hardware video acceleration transparently across different GPUs.
 
 ```
-git clone --recurse-submodules -b 2.22.0 https://github.com/intel/libva.git  # Version 2.22.0 is the latests as of May 5,2025
+git clone --recurse-submodules -b 2.22.0 https://github.com/intel/libva.git  # Version 2.22.0 is the latests as of May 30,2025
 cd libva
 
 meson setup build \
@@ -240,8 +265,6 @@ ninja -C build
 sudo ninja -C build install
 sudo ldconfig
 hash -r
-
-# 
 ```
 
 #### Check installation:
@@ -282,16 +305,18 @@ ldconfig -p | grep libEGL
 
 Mesa 3D Graphics Library. **Mesa** is the core open-source implementation of the OpenGL, Vulkan, and other graphics APIs for Linux. It provides GPU drivers and the Gallium framework to enable hardware-accelerated rendering for a wide range of GPUs including AMD, Intel, and Nvidia (via nouveau).
 
+**You will almost certainly need to modify the build command based upon your GPU.** 
+
 ```
-git clone --recurse-submodules -b mesa-25.1.0-rc3 https://gitlab.freedesktop.org/mesa/mesa.git
+git clone --recurse-submodules -b mesa-25.1.1 https://gitlab.freedesktop.org/mesa/mesa.git  # Version mesa-25.1.1 is the latest as of May 30,2025 and this project updates often
 cd mesa
 
 CC=gcc-15 CXX=g++-15 meson setup build \
   --prefix=/usr/local \
   --buildtype=release \
-  -Dgallium-drivers=radeonsi,zink,softpipe,llvmpipe \ # YOU NEED TO MODIFY BASE DON YOUR GPU
-  -Dvulkan-drivers=amd,swrast,virtio \ # YOU NEED TO MODIFY BASE DON YOUR GPU
-  -Dgallium-va=enabled \
+  -Dgallium-drivers=radeonsi,zink,softpipe,llvmpipe \ # YOU NEED TO MODIFY BASED ON YOUR GPU
+  -Dvulkan-drivers=amd,swrast,virtio \ # YOU NEED TO MODIFY BASED ON YOUR GPU
+  -Dgallium-va=enabled \ 
   -Dgallium-vdpau=enabled \
   -Dllvm=enabled \
   -Dshared-llvm=enabled \
@@ -327,6 +352,28 @@ hash -r
 glxinfo | grep "OpenGL version"
 vulkaninfo | grep "apiVersion"
 ```
+
+### GPU options
+
+#### Gallium Drivers
+
+- `radeonsi`: AMD Radeon GCN 2.0 (HD 7790/R7 260) and newer, including RX 5000/6000/7000/9000.
+- `amdgpu`: Legacy, use `radeonsi` for modern AMD.
+- `iris`: Intel Gen8+ (Broadwell and newer).
+- `i915`: Intel Gen4-7 (older chips).
+- `nouveau`: NVIDIA (open-source driver, older and limited performance).
+- `zink`: Generic OpenGL-over-Vulkan driver (can work on any Vulkan-capable device).
+- `virgl`: Virtualized environments (for QEMU/VirtIO-GPU).
+- `svga`: VMware virtual GPU.
+- `softpipe`/`llvmpipe`: Software rasterizers (no GPU required; `llvmpipe` is faster).
+
+### Vulkan Drivers
+
+- `amd`: AMD Radeon RX 400 series and newer (RADV).
+- `intel`: Intel Gen8+ (ANV driver).
+- `nouveau`: Experimental NVIDIA Vulkan driver (very limited).
+- `swrast`: Software Vulkan implementation (for testing; very slow).
+- `virtio`: Virtualized Vulkan (QEMU/VirtIO-GPU).
 
 
 
