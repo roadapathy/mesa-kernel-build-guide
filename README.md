@@ -1,10 +1,14 @@
 # Mesa-Kernel Build Guide
 
-Unlock the full power of your Linux system by building a **CPU and GPU optimized Mesa graphics stack and Linux Kernel** from source — tailored precisely for your hardware!
+This is a full **copy-and-paste guide** to building some of the key Linux files and projects associated with graphics, gaming, and the Kernel itself.
 
-This guide empowers you to achieve blazing-fast system responsiveness, smooth gaming, and rock-solid stability by leveraging the latest compiler toolchains and advanced optimization techniques. Experience performance improvements that typical prebuilt distributions or Windows users can only dream of.
+Using the latest Kernel, **gamers can have access to the latest bug fixes, performance improvements, and hardware support.**
 
-Whether you're running Ubuntu or another Debian-based distro, this step-by-step walkthrough will help you build and tune your core graphics and kernel components like a true Linux power user. Arch users will also find valuable optimization hints to supercharge their builds.
+Using Mesa, the guide helps you build the **latest version of Mesa** giving you access to a **CPU and GPU optimized graphics core** with all of the latest features. Mesa is frequently updated and improved. Mesa is an open-source graphics library that implements OpenGL, Vulkan, and other graphics APIs on Linux. It serves as a middleware layer between applications and GPU drivers, enabling **hardware-accelerated rendering** across many GPU architectures.
+
+Provided within the guide are sub-projects, or building blocks of Mesa which get updated less frequently but provide **shader support**. We will optimize those too for your specific CPU. 
+
+Whether you're running **Ubuntu** or another **Debian**-based distro, this step-by-step walkthrough will help you build and tune your core graphics and kernel components like a true Linux power user. **Arch** users will also find valuable optimization hints to supercharge their builds.
 
 **Get ready to take control of your system's performance and customize every bit of your graphics and kernel stack — the ultimate Linux tuning experience starts here!**
 
