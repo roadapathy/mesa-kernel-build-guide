@@ -51,7 +51,7 @@ git clone --recurse-submodules -b v2025.1 https://github.com/KhronosGroup/SPIRV-
 KhronosGroup SPIR-V Headers provide the core definitions for SPIR-V. The **SPIR-V Headers** project provides the official definitions for the SPIR-V intermediate representation used in Vulkan and OpenCL. These headers define the specification’s data structures and constants, ensuring consistent interpretation of SPIR-V bytecode across tools and drivers.
 
 ```bash
-git clone --recurse-submodules https://github.com/KhronosGroup/SPIRV-Headers.git
+git clone --recurse-submodules https://github.com/KhronosGroup/SPIRV-Headers.git #  Just use main
 cd SPIRV-Headers
 mkdir build && cd build
 CC=gcc-15 CXX=g++-15 cmake .. -DCMAKE_INSTALL_PREFIX=/usr/local \
@@ -70,7 +70,7 @@ hash -r
 SPIR-V Tools provide utilities to work with SPIR-V binaries. **SPIR-V Tools** is a collection of utilities to manipulate, optimize, and validate SPIR-V binaries. It includes assemblers, disassemblers, optimizers, and validators that are essential in the graphics pipeline for handling shader code.
 
 ```
-git clone --recurse-submodules -b v2025.1 https://github.com/KhronosGroup/SPIRV-Tools.git
+git clone --recurse-submodules -b v2025.1 https://github.com/KhronosGroup/SPIRV-Tools.git  # v2025.1 latest version as of May 5, 2025
 cd SPIRV-Tools
 mkdir build && cd build
 CC=gcc-15 CXX=g++-15 cmake .. -DCMAKE_INSTALL_PREFIX=/usr/local \
@@ -95,7 +95,7 @@ hash -r
 Reference front-end compiler for GLSL and ESSL shaders. The **glslang** library is the reference compiler for GLSL (OpenGL Shading Language) and ESSL (OpenGL ES Shading Language). It converts GLSL shader source code into SPIR-V bytecode, which GPUs consume for rendering.
 
 ```
-git clone --recurse-submodules -b 15.3.0 https://github.com/KhronosGroup/glslang.git
+git clone --recurse-submodules -b **15.3.0** https://github.com/KhronosGroup/glslang.git  # 15.3.0 latest version as of May 5, 2025
 cd glslang
 mkdir build && cd build
 
@@ -118,7 +118,7 @@ hash -r
 SPIR-V to LLVM Translator. The **SPIR-V Translator** bridges SPIR-V and LLVM intermediate representations, enabling interoperability between Vulkan shaders and other compiler toolchains. It’s used to translate SPIR-V into LLVM IR for optimization and back.
 
 ```
-git clone --recurse-submodules -b v20.1.2 https://github.com/KhronosGroup/SPIRV-LLVM-Translator.git
+git clone --recurse-submodules -b v20.1.2 https://github.com/KhronosGroup/SPIRV-LLVM-Translator.git  # v20.1.2 latest version as of May 5, 2025
 cd SPIRV-LLVM-Translator
 mkdir build && cd build
 
@@ -148,7 +148,7 @@ hash -r
 ## 
 
 ```
-git clone --recurse-submodules git://anongit.freedesktop.org/git/cairo
+git clone --recurse-submodules git://anongit.freedesktop.org/git/cairo # There's only this link, AKA master/main
 cd cairo
 
 meson setup builddir --prefix=/usr/local --buildtype=release \
@@ -166,12 +166,15 @@ pkg-config --modversion cairo
 
 
 
+
+
+
 ## libDRM
 
 Direct Rendering Manager library for interacting with GPUs. The **libDRM** (Direct Rendering Manager library) provides user-space APIs to communicate with the Linux kernel’s DRM subsystem. It enables applications to control GPU resources, manage memory, and perform direct rendering operations.
 
 ```
-git clone --recurse-submodules -b libdrm-2.4.124 https://gitlab.freedesktop.org/mesa/drm.git
+git clone --recurse-submodules -b libdrm-2.4.124 https://gitlab.freedesktop.org/mesa/drm.git  # Version libdrm-2.4.124 is the latest as of May 5, 2025
 cd drm
 
 CC=gcc-15 CXX=g++-15 meson setup build \
@@ -216,7 +219,7 @@ find /usr/local -name "libdrm.so*"
 Hardware video acceleration API from Intel but used also by AMD GPUs. It's not updated very often but you can check the git link for something newer. **libva** is a vendor-neutral library offering a standardized API for GPU-accelerated video decoding, encoding, and processing. Primarily developed by Intel, it allows applications to leverage hardware video acceleration transparently across different GPUs.
 
 ```
-git clone --recurse-submodules -b 2.22.0 https://github.com/intel/libva.git
+git clone --recurse-submodules -b 2.22.0 https://github.com/intel/libva.git  # Version 2.22.0 is the latests as of May 5,2025
 cd libva
 
 meson setup build \
