@@ -353,6 +353,8 @@ glxinfo | grep "OpenGL version"
 vulkaninfo | grep "apiVersion"
 ```
 
+If the verification matches what was just built and you can successfully load Firefox, Steam, and play a game then **you did it!** You are now running a CPU and GPU optimized version of the Linux graphic drivers! This will include code updates, bug fixes, the latest graphic features, more supported games, and more!
+
 ### GPU options
 
 #### Gallium Drivers
