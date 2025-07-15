@@ -210,7 +210,7 @@ CC=gcc-15 CXX=g++-15 meson setup build \
   -Damdgpu=enabled \ # YOU NEED TO MODIFY BASED ON YOUR GPU
   -Dintel=disabled \ # YOU NEED TO MODIFY BASED ON YOUR GPU
   -Dnouveau=disabled \ # YOU NEED TO MODIFY BASED ON YOUR GPU
-  -Dvmwgfx=disabled \ 
+  -Dvmwgfx=disabled \
   -Domap=disabled \
   -Dfreedreno=disabled \
   -Dtegra=disabled \
@@ -220,9 +220,9 @@ CC=gcc-15 CXX=g++-15 meson setup build \
   -Dudev=true \
   -Dvalgrind=disabled \
   -Dinstall-test-programs=true \
-  -Dc_args="-O2 -march=native -mtune=native -frename-registers -fweb -fgcse-after-reload -fomit-frame-pointer -g0 -pthread -flto" \
-  -Dcpp_args="-O2 -march=native -mtune=native -frename-registers -fweb -fgcse-after-reload -fomit-frame-pointer -g0 -pthread -flto"
-
+  -Ddefault_library=both \
+  -Dc_args="-O3 -march=znver5 -fomit-frame-pointer -g0 -fvisibility=hidden -pthread -pipe" \
+  -Dcpp_args="-O3 -march=znver5 -fomit-frame-pointer -g0 -fvisibility=hidden -pthread -pipe" \
 ninja -C build -j$(nproc)
 sudo ninja -C build install
 sudo ldconfig
@@ -285,7 +285,7 @@ git clone --recurse-submodules -b v1.7.0 https://gitlab.freedesktop.org/glvnd/li
 cd libglvnd
 
 ./autogen.sh
-CFLAGS="-O2 -march=native -mtune=native -fomit-frame-pointer -frename-registers -fweb -fgcse-after-reload -g0 -flto -fvisibility=hidden -fPIC -pthread" \
+CFLAGS="-O2 -march=native -mtune=native -fomit-frame-pointer -frename-registers -fweb -fgcse-after-reload -g0 -flto -fPIC -pthread" \
 ./configure --prefix=/usr/local
 
 make -j$(nproc)
@@ -311,21 +311,24 @@ Mesa 3D Graphics Library. **Mesa** is the core open-source implementation of the
 git clone --recurse-submodules -b mesa-25.1.1 https://gitlab.freedesktop.org/mesa/mesa.git  # Version mesa-25.1.1 is the latest as of May 30,2025 and this project updates often
 cd mesa
 
-CC=gcc-15 CXX=g++-15 meson setup build \
+CC=gcc-15 CXX=g++-15 meson setup builddir \
   --prefix=/usr/local \
   --buildtype=release \
-  -Dgallium-drivers=radeonsi,zink,softpipe,llvmpipe \ # YOU NEED TO MODIFY BASED ON YOUR GPU
-  -Dvulkan-drivers=amd,swrast,virtio \ # YOU NEED TO MODIFY BASED ON YOUR GPU
-  -Dgallium-va=enabled \ 
+  -Dvulkan-icd-dir=/usr/local/share/vulkan/icd.d \
+  -Dva-libs-path=/usr/local/lib \
+  -Dshared-llvm=enabled \
+  -Dshader-cache-max-size=8G \
+  -Dgallium-drivers=radeonsi,zink \ # YOU NEED TO MODIFY BASED ON YOUR GPU
+  -Dvulkan-drivers=amd,swrast \ # YOU NEED TO MODIFY BASED ON YOUR GPU
+  -Dgallium-va=enabled \
   -Dgallium-vdpau=enabled \
   -Dllvm=enabled \
-  -Dshared-llvm=enabled \
   -Dopengl=true \
   -Dgles1=disabled \
   -Dgles2=enabled \
   -Dglx=dri \
   -Dgbm=enabled \
-  -Dplatforms=x11,wayland \
+  -Dplatforms=wayland,x11 \
   -Dlmsensors=enabled \
   -Dvideo-codecs=all \
   -Dgallium-rusticl=true \
@@ -338,8 +341,10 @@ CC=gcc-15 CXX=g++-15 meson setup build \
   -Dvalgrind=disabled \
   -Degl=enabled \
   -Dbuild-tests=false \
-  -Dc_args="-O3 -march=native -mtune=native -fomit-frame-pointer -g0 -pthread -flto" \
-  -Dcpp_args="-O3 -march=native -mtune=native -fomit-frame-pointer -g0 -pthread -flto"
+  -Ddefault_library=both \
+  -Dglvnd=enabled \
+  -Dc_args="-O3 -march=znver5 -fomit-frame-pointer -g0 -fvisibility=hidden -pthread -pipe" \
+  -Dcpp_args="-O3 -march=znver5 -fomit-frame-pointer -g0 -fvisibility=hidden -pthread -pipe"
 
 meson compile -C build -j$(nproc)
 sudo meson install -C build

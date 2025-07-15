@@ -106,13 +106,13 @@ If the build process stops, copy and paste the error output to ChatGPT if you're
 Use this build command instead of the one above if you want to push the Kernel further toward performance. 
 
 ```
-CFLAGS="-O2 -march=native -mtune=native -fno-stack-protector -fomit-frame-pointer -g0" \
+CFLAGS="-O2 -march=native -mtune=native -fomit-frame-pointer -g0" \
 RUSTFLAGS="-C opt-level=2 -C target-cpu=native" \
-KCFLAGS="-O2 -march=native -mtune=native -fno-stack-protector -fomit-frame-pointer -fno-common -pipe -g0" \
-KCPPFLAGS="-O2 -march=native -mtune=native -fno-stack-protector -fomit-frame-pointer -pipe -g0" \
-KBUILD_CFLAGS_MODULE="-O3 -march=native -mtune=native -fomit-frame-pointer -fno-stack-protector -frename-registers -fgcse-after-reload -funroll-loops -pipe -g0" \
-KBUILD_CFLAGS_KERNEL="-O2 -march=native -mtune=native -fomit-frame-pointer -fno-stack-protector -pipe -g0" \
-sudo make -j$(nproc) LOCALVERSION=-joelsafe bindeb-pkg CC=gcc-15 HOSTCC=gcc-15
+KCFLAGS="-O2 -march=native -mtune=native -fomit-frame-pointer -fno-common -pipe -g0" \
+KCPPFLAGS="-O2 -march=native -mtune=native -fomit-frame-pointer -pipe -g0" \
+KBUILD_CFLAGS_MODULE="-O3 -march=native -mtune=native -fomit-frame-pointer -funroll-loops -pipe -g0" \
+KBUILD_CFLAGS_KERNEL="-O2 -march=native -mtune=native -fomit-frame-pointer -pipe -g0" \
+sudo make -j$(nproc) LOCALVERSION=-joels bindeb-pkg CC=gcc-15 HOSTCC=gcc-15
 ```
 
 ### Explanation
